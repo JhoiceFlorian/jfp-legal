@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>TikTok OAuth Callback</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { font-family: Georgia, serif; max-width: 600px; margin: 80px auto; padding: 0 20px; line-height: 1.6; color: #222; text-align: center; }
+  h1 { color: #0B1F3A; }
+  .code-box { background: #f5f0e6; border: 2px solid #D4AF37; border-radius: 8px; padding: 20px; margin: 30px 0; word-break: break-all; font-family: monospace; font-size: 1.1em; }
+  .copy-btn { background: #0B1F3A; color: #F5F0E6; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 1em; }
+  .copy-btn:hover { background: #132C52; }
+  .empty { color: #888; font-style: italic; }
+</style>
+</head>
+<body>
+<h1>Autorización completada</h1>
+<p>Copia este código y pégalo en tu script para obtener el access token:</p>
+<div class="code-box" id="codeBox">Cargando...</div>
+<button class="copy-btn" onclick="copyCode()">Copiar código</button>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const error = params.get('error');
+  const box = document.getElementById('codeBox');
+
+  if (code) {
+    box.textContent = code;
+  } else if (error) {
+    box.textContent = 'Error: ' + error;
+    box.classList.add('empty');
+  } else {
+    box.textContent = 'No se encontró ningún código en la URL.';
+    box.classList.add('empty');
+  }
+
+  function copyCode() {
+    navigator.clipboard.writeText(box.textContent).then(() => {
+      alert('Copiado al portapapeles');
+    });
+  }
+</script>
+</body>
+</html>
